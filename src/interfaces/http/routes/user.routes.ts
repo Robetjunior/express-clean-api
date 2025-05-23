@@ -1,11 +1,17 @@
 import { Router } from 'express';
-import { create, getAll } from '../controllers/UserController';
-import { validate } from '../middlewares/validate';
-import { createUserSchema } from '../validators/user.validator';
+import { register, login, getAll, getById, update, remove } from '../controllers/UserController';
+import { authenticate } from '../middlewares/auth';
 
 const router = Router();
 
-router.post('/', validate({ body: createUserSchema }), create);
+router.post('/register', register);
+router.post('/login', login);
+
+router.use(authenticate);  // 🔸 Protege as rotas abaixo
+
 router.get('/', getAll);
+router.get('/:id', getById);
+router.put('/:id', update);
+router.delete('/:id', remove);
 
 export default router;

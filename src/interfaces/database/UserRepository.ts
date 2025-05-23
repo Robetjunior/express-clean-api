@@ -10,7 +10,7 @@ export class UserRepository implements IUserRepository {
   private users: UserRecord[] = [];
 
   async save(user: User): Promise<User> {
-    const newUser = { ...user, id: uuidv4() };
+    const newUser = { ...user, id: uuidv4() };   // ✅ Adiciona id
     this.users.push(newUser);
     return newUser;
   }
@@ -30,7 +30,6 @@ export class UserRepository implements IUserRepository {
   async update(id: string, data: Partial<User>): Promise<User> {
     const index = this.users.findIndex(user => user.id === id);
     if (index === -1) throw new Error('User not found');
-
     this.users[index] = { ...this.users[index], ...data };
     return this.users[index];
   }

@@ -3,8 +3,9 @@ import { IUserRepository } from '../../domain/repositories/IUserRepository';
 import { z } from 'zod';
 
 const userSchema = z.object({
-  name: z.string().min(1),
-  email: z.string().email()
+  name: z.string().min(3),
+  email: z.string().email(),
+  password: z.string().min(6)  
 });
 
 export class CreateUserUseCase {
@@ -12,7 +13,7 @@ export class CreateUserUseCase {
 
   async execute(data: any) {
     const validated = userSchema.parse(data);
-    const user = new User(validated.name, validated.email);
+    const user = new User(validated.name, validated.email, validated.password);  
     return await this.userRepository.save(user);
   }
 }
